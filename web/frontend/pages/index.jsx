@@ -13,8 +13,15 @@ import { TitleBar } from "@shopify/app-bridge-react";
 import { trophyImage } from "../assets";
 
 import { ProductsCard } from "../components";
+import { useAppQuery } from "../hooks";
 
 export default function HomePage() {
+  const { data, isLoading, refetch, isRefetching } = useAppQuery({
+    url: "/api/products",
+  });
+
+  console.log("data: ", data);
+  
   return (
     <Page narrowWidth>
       <TitleBar title="App name" primaryAction={null} />
