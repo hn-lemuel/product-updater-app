@@ -1,5 +1,6 @@
 import { useEffect, useState } from "react";
 import { Layout, SkeletonBodyText, IndexTable } from "@shopify/polaris";
+import { ProductUpdateModal } from "./ProductUpdateModal";
 
 export const ProductList = ({ data, isLoading, isRefetching }) => {
   const [products, setProducts] = useState([]);
@@ -36,17 +37,20 @@ export const ProductList = ({ data, isLoading, isRefetching }) => {
   );
 
   return (
-    <IndexTable
-      resourceName={resourceName}
-      itemCount={data?.data?.length}
-      selectable={false}
-      headings={[
-        { title: "Image" },
-        { title: "Title" },
-        { title: "Description" },
-      ]}
-    >
-      {productsRowMarkup}
-    </IndexTable>
+    <>
+      <IndexTable
+        resourceName={resourceName}
+        itemCount={data?.data?.length}
+        selectable={false}
+        headings={[
+          { title: "Image" },
+          { title: "Title" },
+          { title: "Description" },
+        ]}
+      >
+        {productsRowMarkup}
+      </IndexTable>
+      <ProductUpdateModal data={products} />
+    </>
   );
 };
