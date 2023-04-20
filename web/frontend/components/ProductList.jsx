@@ -1,9 +1,11 @@
 import { useEffect, useState } from "react";
-import { Layout, SkeletonBodyText, IndexTable } from "@shopify/polaris";
+import { Layout, SkeletonBodyText, IndexTable, Button } from "@shopify/polaris";
 import { ProductUpdateModal } from "./ProductUpdateModal";
 
 export const ProductList = ({ data, isLoading, isRefetching }) => {
   const [products, setProducts] = useState([]);
+  const [selectedProduct, setSelectedProduct] = useState(null);
+  const [showModal, setShowModal] = useState(false);
 
   useEffect(() => {
     if (data?.data) {
@@ -32,6 +34,16 @@ export const ProductList = ({ data, isLoading, isRefetching }) => {
         </IndexTable.Cell>
         <IndexTable.Cell>{title}</IndexTable.Cell>
         <IndexTable.Cell>{description}</IndexTable.Cell>
+        <IndexTable.Cell>
+          <Button
+            onClick={() => {
+              setSelectedProduct({ id, image, title, description });
+              setShowModal(true);
+            }}
+          >
+            Update Product
+          </Button>
+        </IndexTable.Cell>
       </IndexTable.Row>
     )
   );
@@ -46,11 +58,18 @@ export const ProductList = ({ data, isLoading, isRefetching }) => {
           { title: "Image" },
           { title: "Title" },
           { title: "Description" },
+          { title: "Action" },
         ]}
       >
         {productsRowMarkup}
       </IndexTable>
-      <ProductUpdateModal data={products} />
+      {selectedProduct && (
+        <ProductUpdateModal
+          showModal={showModal}
+          setShowModal={setShowModal}
+          product={selectedProduct}
+        />
+      )}
     </>
   );
 };
