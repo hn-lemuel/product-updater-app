@@ -7,7 +7,9 @@ import serveStatic from "serve-static";
 import shopify from "./shopify.js";
 import productCreator from "./product-creator.js";
 import GDPRWebhookHandlers from "./gdpr.js";
+
 import fetchProducts from "./helpers/fetch-products.js";
+import productUpdater from "./helpers/product-updater.js";
 
 const PORT = parseInt(process.env.BACKEND_PORT || process.env.PORT, 10);
 
@@ -42,7 +44,20 @@ app.get("/api/products", async (_req, res) => {
     const products = await fetchProducts(res.locals.shopify.session);
     res.status(200).json({ data: products });
   } catch (error) {
-    console.log(`Failed to process products: ${error.message}`);
+    res.status(500).json({ error: error.message });
+  }
+});
+
+app.post("/api/products/update", async (req, res) => {
+  const { id, description, title } = req.body;
+  try {
+    const updateProduct = await productUpdater(res.locals.shopify.session, {
+      id,
+      description,
+      title,
+    });
+    res.status(200).json({ data: updateProduct });
+  } catch (error) {
     res.status(500).json({ error: error.message });
   }
 });
