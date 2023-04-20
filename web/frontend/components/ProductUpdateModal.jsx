@@ -60,11 +60,6 @@ export const ProductUpdateModal = ({ showModal, setShowModal, product }) => {
           onAction: handleUpdateProduct,
           disabled: isUpdating,
         }}
-        secondaryActions={[
-          {
-            content: "Update via Admin",
-          },
-        ]}
       >
         <Modal.Section>
           <Form>
