@@ -1,10 +1,5 @@
 import { useEffect, useState } from "react";
-import {
-  Layout,
-  SkeletonBodyText,
-  IndexTable,
-  EmptyState,
-} from "@shopify/polaris";
+import { Layout, SkeletonBodyText, IndexTable } from "@shopify/polaris";
 
 export const ProductList = ({ data, isLoading, isRefetching }) => {
   const [products, setProducts] = useState([]);
