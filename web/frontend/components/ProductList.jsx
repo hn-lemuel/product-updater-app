@@ -2,11 +2,12 @@ import {
   Layout,
   SkeletonBodyText,
   IndexTable,
-  useIndexResourceState,
-  Badge,
+  EmptyState,
 } from "@shopify/polaris";
 
 export const ProductList = ({ data, isLoading, isRefetching }) => {
+  const products = data?.data;
+
   if (isLoading || isRefetching) {
     return (
       <Layout sectioned>
@@ -15,18 +16,23 @@ export const ProductList = ({ data, isLoading, isRefetching }) => {
     );
   }
 
-  if (!data) {
-    return <div>No data available.</div>;
+  if (!products) {
+    return (
+      <EmptyState
+        heading="No Products Found"
+        image="https://cdn.shopify.com/s/files/1/0262/4071/2726/files/emptystate-files.png"
+      >
+        <p>Please add products</p>
+      </EmptyState>
+    );
   }
-
-  console.log(data);
 
   const resourceName = {
     singular: "product",
     plural: "products",
   };
 
-  const rowMarkup = data?.data.map(
+  const productsRowMarkup = products.map(
     ({ id, image, title, description }, index) => (
       <IndexTable.Row key={id} position={index}>
         <IndexTable.Cell>
@@ -49,7 +55,7 @@ export const ProductList = ({ data, isLoading, isRefetching }) => {
         { title: "Description" },
       ]}
     >
-      {rowMarkup}
+      {productsRowMarkup}
     </IndexTable>
   );
 };
