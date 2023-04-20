@@ -1,5 +1,11 @@
 import { useEffect, useState } from "react";
-import { Layout, SkeletonBodyText, IndexTable, Button } from "@shopify/polaris";
+import {
+  Layout,
+  SkeletonBodyText,
+  IndexTable,
+  Button,
+  Thumbnail,
+} from "@shopify/polaris";
 import { ProductUpdateModal } from "./ProductUpdateModal";
 
 export const ProductList = ({ data, isLoading, isRefetching }) => {
@@ -30,7 +36,7 @@ export const ProductList = ({ data, isLoading, isRefetching }) => {
     ({ id, image, title, description }, index) => (
       <IndexTable.Row key={id} position={index}>
         <IndexTable.Cell>
-          <img src={image} alt={title} width={50} height={50} />
+          <Thumbnail source={image} alt={title} />
         </IndexTable.Cell>
         <IndexTable.Cell>{title}</IndexTable.Cell>
         <IndexTable.Cell>{description}</IndexTable.Cell>
