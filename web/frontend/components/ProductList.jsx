@@ -1,3 +1,4 @@
+import { useEffect, useState } from "react";
 import {
   Layout,
   SkeletonBodyText,
@@ -6,24 +7,19 @@ import {
 } from "@shopify/polaris";
 
 export const ProductList = ({ data, isLoading, isRefetching }) => {
-  const products = data?.data;
+  const [products, setProducts] = useState([]);
+
+  useEffect(() => {
+    if (data?.data) {
+      setProducts(data.data);
+    }
+  }, [data]);
 
   if (isLoading || isRefetching) {
     return (
       <Layout sectioned>
         <SkeletonBodyText />
       </Layout>
-    );
-  }
-
-  if (!products) {
-    return (
-      <EmptyState
-        heading="No Products Found"
-        image="https://cdn.shopify.com/s/files/1/0262/4071/2726/files/emptystate-files.png"
-      >
-        <p>Please add products</p>
-      </EmptyState>
     );
   }
 
@@ -47,7 +43,7 @@ export const ProductList = ({ data, isLoading, isRefetching }) => {
   return (
     <IndexTable
       resourceName={resourceName}
-      itemCount={data.data?.length}
+      itemCount={data?.data?.length}
       selectable={false}
       headings={[
         { title: "Image" },
