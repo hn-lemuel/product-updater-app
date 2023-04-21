@@ -46,6 +46,7 @@ export const ProductList = ({ data, isLoading, isRefetching, refetch }) => {
               setSelectedProduct({ id, image, title, description });
               setShowModal(true);
             }}
+            primary
           >
             Update Product
           </Button>
