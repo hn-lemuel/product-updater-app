@@ -8,7 +8,7 @@ import {
 } from "@shopify/polaris";
 import { ProductUpdateModal } from "./ProductUpdateModal";
 
-export const ProductList = ({ data, isLoading, isRefetching }) => {
+export const ProductList = ({ data, isLoading, isRefetching, refetch }) => {
   const [products, setProducts] = useState([]);
   const [selectedProduct, setSelectedProduct] = useState(null);
   const [showModal, setShowModal] = useState(false);
@@ -74,6 +74,7 @@ export const ProductList = ({ data, isLoading, isRefetching }) => {
           showModal={showModal}
           setShowModal={setShowModal}
           product={selectedProduct}
+          refetch={refetch}
         />
       )}
     </>

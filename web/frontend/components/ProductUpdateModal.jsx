@@ -1,9 +1,14 @@
-import { useState, useCallback } from "react";
-import { useNavigate, Toast } from "@shopify/app-bridge-react";
-import { Form, FormLayout, Modal, TextField } from "@shopify/polaris";
+import { useState, useCallback, useEffect } from "react";
+import { Toast } from "@shopify/app-bridge-react";
 import { useAuthenticatedFetch } from "../hooks";
+import { Form, FormLayout, Modal, TextField } from "@shopify/polaris";
 
-export const ProductUpdateModal = ({ showModal, setShowModal, product }) => {
+export const ProductUpdateModal = ({
+  showModal,
+  setShowModal,
+  product,
+  refetch,
+}) => {
   const [title, setTitle] = useState(product?.title || "");
   const [description, setDescription] = useState(product?.description || "");
   const [showToast, setShowToast] = useState(false);
@@ -44,10 +49,20 @@ export const ProductUpdateModal = ({ showModal, setShowModal, product }) => {
 
     if (response.ok) {
       toggleToast();
+      setShowModal(false);
+      refetch();
     }
 
     setIsUpdating(false);
   };
+
+  // This update the state with the fetched data
+  useEffect(() => {
+    if (product) {
+      setTitle(product.title);
+      setDescription(product.description);
+    }
+  }, [product]);
 
   return (
     <>

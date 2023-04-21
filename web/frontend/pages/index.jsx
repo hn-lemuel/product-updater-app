@@ -4,7 +4,7 @@ import { ProductList } from "../components";
 import { useAppQuery } from "../hooks";
 
 export default function HomePage() {
-  const { data, isLoading, isRefetching } = useAppQuery({
+  const { data, isLoading, refetch, isRefetching } = useAppQuery({
     url: "/api/products",
   });
 
@@ -18,6 +18,7 @@ export default function HomePage() {
               data={data}
               isLoading={isLoading}
               isRefetching={isRefetching}
+              refetch={refetch}
             />
           </Card>
         </Layout.Section>
