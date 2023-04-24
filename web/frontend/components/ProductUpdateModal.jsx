@@ -1,7 +1,14 @@
 import { useState, useCallback, useEffect } from "react";
 import { Toast } from "@shopify/app-bridge-react";
 import { useAuthenticatedFetch } from "../hooks";
-import { Form, FormLayout, Modal, TextField } from "@shopify/polaris";
+import {
+  Form,
+  FormLayout,
+  Modal,
+  TextField,
+  Button,
+  Checkbox,
+} from "@shopify/polaris";
 
 export const ProductUpdateModal = ({
   showModal,
@@ -13,7 +20,12 @@ export const ProductUpdateModal = ({
   const [description, setDescription] = useState(product?.description || "");
   const [showToast, setShowToast] = useState(false);
   const [isUpdating, setIsUpdating] = useState(false);
+  const [isHot, setIsHot] = useState(false);
   const fetch = useAuthenticatedFetch();
+
+  const handleIsHotEnable = () => {
+    setIsHot(true);
+  };
 
   const handleTitleChange = useCallback((value) => {
     setTitle(value);
@@ -48,12 +60,31 @@ export const ProductUpdateModal = ({
     });
 
     if (response.ok) {
+      createProjectHighlight();
       toggleToast();
       setShowModal(false);
       refetch();
     }
 
     setIsUpdating(false);
+  };
+
+  const createProjectHighlight = async () => {
+    const updatedProjectHighlight = {
+      isHotItem: isHot,
+      product_id: product.id,
+    };
+    const response = await fetch("/api/products-highlight/create", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify(updatedProjectHighlight),
+    });
+
+    if (response.ok) {
+      console.log("res", response);
+    }
   };
 
   // This update the state with the fetched data
@@ -99,6 +130,11 @@ export const ProductUpdateModal = ({
                 value={description}
                 multiline={4}
                 onChange={handleDescriptionChange}
+              />
+              <Checkbox
+                label="This product is Hot right now?"
+                checked={isHot}
+                onChange={handleIsHotEnable}
               />
             </FormLayout>
           </Form>

@@ -11,6 +11,12 @@ import GDPRWebhookHandlers from "./gdpr.js";
 import fetchProducts from "./helpers/fetch-products.js";
 import productUpdater from "./helpers/product-updater.js";
 
+import dotenv from "dotenv";
+import mongoose from "mongoose";
+import createProductHighlight from "./backend/controllers/product.controller.js";
+
+dotenv.config();
+console.log(process.env.DB_CONNECTION_STRING);
 const PORT = parseInt(process.env.BACKEND_PORT || process.env.PORT, 10);
 
 const STATIC_PATH =
@@ -39,6 +45,8 @@ app.use("/api/*", shopify.validateAuthenticatedSession());
 
 app.use(express.json());
 
+app.post("/api/products-highlight/create", createProductHighlight);
+
 app.get("/api/products", async (_req, res) => {
   try {
     const products = await fetchProducts(res.locals.shopify.session);
@@ -56,7 +64,7 @@ app.post("/api/products/update", async (req, res) => {
       description,
       title,
     });
-    res.status(200).json({ data: updateProduct });
+    res.status(200).json({ result: updateProduct });
   } catch (error) {
     res.status(500).json({ error: error.message });
   }
@@ -93,4 +101,8 @@ app.use("/*", shopify.ensureInstalledOnShop(), async (_req, res, _next) => {
     .send(readFileSync(join(STATIC_PATH, "index.html")));
 });
 
-app.listen(PORT);
+const mongoDB = process.env.DB_CONNECTION_STRING;
+mongoose
+  .connect(mongoDB, {})
+  .then(() => app.listen(PORT, () => console.log("Connected")))
+  .catch((error) => console.log(error));
