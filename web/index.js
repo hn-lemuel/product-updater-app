@@ -13,7 +13,8 @@ import productUpdater from "./helpers/product-updater.js";
 
 import dotenv from "dotenv";
 import mongoose from "mongoose";
-import createProductHighlight from "./backend/controllers/product.controller.js";
+import createdProductRoutes from "./backend/routes/product.routes.js";
+import cors from "cors";
 
 dotenv.config();
 console.log(process.env.DB_CONNECTION_STRING);
@@ -25,6 +26,7 @@ const STATIC_PATH =
     : `${process.cwd()}/frontend/`;
 
 const app = express();
+app.use(cors());
 
 // Set up Shopify authentication and webhook handling
 app.get(shopify.config.auth.path, shopify.auth.begin());
@@ -45,7 +47,7 @@ app.use("/api/*", shopify.validateAuthenticatedSession());
 
 app.use(express.json());
 
-app.post("/api/products-highlight/create", createProductHighlight);
+app.use("/api/products-highlight", createdProductRoutes);
 
 app.get("/api/products", async (_req, res) => {
   try {

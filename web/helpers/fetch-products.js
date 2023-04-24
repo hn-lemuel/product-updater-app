@@ -33,16 +33,9 @@ const formatGqlResponse = (res) => {
       title,
       description,
       images: { edges: imageEdges = [] } = {},
-      variants: { edges: variantEdges = [] } = {},
     } = node;
 
     const image = imageEdges[0]?.node?.url || "https://placehold.co/600x400";
-
-    const variants = variantEdges.map(({ node: { id, title, price } }) => ({
-      id,
-      title,
-      price,
-    }));
 
     return {
       id,
@@ -50,7 +43,6 @@ const formatGqlResponse = (res) => {
       title,
       description,
       image,
-      variants,
     };
   });
 };

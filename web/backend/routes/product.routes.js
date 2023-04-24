@@ -1,8 +1,14 @@
 import express from "express";
-import createProductHighlight from "../controllers/product.controller";
+import {
+  getProductHighlight,
+  createProductHighlight,
+  updateProductHighlight,
+} from "../controllers/product.controller.js";
 
 const router = express.Router();
 
-router.post("/api/products-highlight/create", createProductHighlight);
+router.get("/get", getProductHighlight);
+router.post("/create", createProductHighlight);
+router.post("/update", updateProductHighlight);
 
 export default router;

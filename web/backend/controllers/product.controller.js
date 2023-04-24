@@ -1,7 +1,7 @@
 import mongoose from "mongoose";
 import ProductHighlight from "../models/product.model.js";
 
-const createProductHighlight = async (req, res) => {
+export const createProductHighlight = async (req, res) => {
   try {
     const data = new ProductHighlight(req.body);
     const newData = await data.save();
@@ -11,4 +11,42 @@ const createProductHighlight = async (req, res) => {
   }
 };
 
-export default createProductHighlight;
+export const getProductHighlight = async (req, res) => {
+  try {
+    const params = req.query;
+    const product = await ProductHighlight.find({
+      product_id: params.id,
+    });
+    return res.status(200).json({
+      message: "SUCCESS FETCH",
+      data: product,
+    });
+  } catch (e) {
+    return res.status(500).json({
+      message: e.message,
+    });
+  }
+};
+
+export const updateProductHighlight = async (req, res) => {
+  try {
+    const data = req.body;
+    const product = await ProductHighlight.findOneAndUpdate({
+      product_id: data.id,
+    });
+    console.log("SUCCESS");
+    return res.status(200).json({
+      message: "Update complete",
+      data: product,
+    });
+  } catch (e) {
+    console.log("ERROR", e.message);
+    return res.status(500).json({
+      message: e.message,
+    });
+  }
+};
+
+// get data
+// no id create
+// if yes update

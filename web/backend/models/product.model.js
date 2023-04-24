@@ -6,6 +6,9 @@ const productSchema = new mongoose.Schema(
       default: false,
       type: Boolean,
     },
+    name: {
+      type: String,
+    },
     product_id: {
       type: String,
       required: true,

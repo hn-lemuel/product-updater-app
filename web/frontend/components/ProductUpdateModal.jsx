@@ -1,14 +1,7 @@
 import { useState, useCallback, useEffect } from "react";
 import { Toast } from "@shopify/app-bridge-react";
 import { useAuthenticatedFetch } from "../hooks";
-import {
-  Form,
-  FormLayout,
-  Modal,
-  TextField,
-  Button,
-  Checkbox,
-} from "@shopify/polaris";
+import { Form, FormLayout, Modal, TextField, Checkbox } from "@shopify/polaris";
 
 export const ProductUpdateModal = ({
   showModal,
@@ -72,6 +65,7 @@ export const ProductUpdateModal = ({
   const createProjectHighlight = async () => {
     const updatedProjectHighlight = {
       isHotItem: isHot,
+      name: product.title,
       product_id: product.id,
     };
     const response = await fetch("/api/products-highlight/create", {

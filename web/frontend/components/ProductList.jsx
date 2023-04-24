@@ -7,6 +7,7 @@ import {
   Thumbnail,
 } from "@shopify/polaris";
 import { ProductUpdateModal } from "./ProductUpdateModal";
+import ProductHightlight from "./ProductHightlight";
 
 export const ProductList = ({ data, isLoading, isRefetching, refetch }) => {
   const [products, setProducts] = useState([]);
@@ -41,6 +42,9 @@ export const ProductList = ({ data, isLoading, isRefetching, refetch }) => {
         <IndexTable.Cell>{title}</IndexTable.Cell>
         <IndexTable.Cell>{description}</IndexTable.Cell>
         <IndexTable.Cell>
+          <ProductHightlight id={id} />
+        </IndexTable.Cell>
+        <IndexTable.Cell>
           <Button
             onClick={() => {
               setSelectedProduct({ id, image, title, description });
@@ -65,6 +69,7 @@ export const ProductList = ({ data, isLoading, isRefetching, refetch }) => {
           { title: "Image" },
           { title: "Title" },
           { title: "Description" },
+          { title: "Highlight" },
           { title: "Action" },
         ]}
       >
