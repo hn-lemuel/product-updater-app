@@ -1,6 +1,6 @@
 import { useState, useCallback, useEffect } from "react";
 import { Toast } from "@shopify/app-bridge-react";
-import { useAuthenticatedFetch } from "../hooks";
+import { useAppQuery, useAuthenticatedFetch } from "../hooks";
 import { Form, FormLayout, Modal, TextField, Checkbox } from "@shopify/polaris";
 
 export const ProductUpdateModal = ({
@@ -16,8 +16,14 @@ export const ProductUpdateModal = ({
   const [isHot, setIsHot] = useState(false);
   const fetch = useAuthenticatedFetch();
 
+  const { data } = useAppQuery({
+    url: `/api/products-highlight/get?id=${product.id}`,
+  });
+
+  console.log("==>", data?.data.length);
+
   const handleIsHotEnable = () => {
-    setIsHot(true);
+    setIsHot(!isHot);
   };
 
   const handleTitleChange = useCallback((value) => {
@@ -53,7 +59,7 @@ export const ProductUpdateModal = ({
     });
 
     if (response.ok) {
-      createProjectHighlight();
+      handleProjectHighlight();
       toggleToast();
       setShowModal(false);
       refetch();
@@ -62,14 +68,18 @@ export const ProductUpdateModal = ({
     setIsUpdating(false);
   };
 
-  const createProjectHighlight = async () => {
+  const handleProjectHighlight = async () => {
+    const action = data?.data.length ? "update" : "create";
+    const method = data?.data.length ? "PUT" : "POST";
+
     const updatedProjectHighlight = {
       isHotItem: isHot,
-      name: product.title,
+      name: title,
       product_id: product.id,
     };
-    const response = await fetch("/api/products-highlight/create", {
-      method: "POST",
+    console.log(updatedProjectHighlight);
+    const response = await fetch(`/api/products-highlight/${action}`, {
+      method: method,
       headers: {
         "Content-Type": "application/json",
       },
@@ -83,11 +93,12 @@ export const ProductUpdateModal = ({
 
   // This update the state with the fetched data
   useEffect(() => {
-    if (product) {
-      setTitle(product.title);
-      setDescription(product.description);
+    setTitle(product?.title || "");
+    setDescription(product?.description || "");
+    if (data?.data.length) {
+      setIsHot(data.data.isHotItem);
     }
-  }, [product]);
+  }, [product, data]);
 
   return (
     <>

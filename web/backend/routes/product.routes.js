@@ -9,6 +9,6 @@ const router = express.Router();
 
 router.get("/get", getProductHighlight);
 router.post("/create", createProductHighlight);
-router.post("/update", updateProductHighlight);
+router.put("/update", updateProductHighlight);
 
 export default router;

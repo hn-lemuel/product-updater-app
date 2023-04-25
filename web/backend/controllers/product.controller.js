@@ -31,10 +31,17 @@ export const getProductHighlight = async (req, res) => {
 export const updateProductHighlight = async (req, res) => {
   try {
     const data = req.body;
-    const product = await ProductHighlight.findOneAndUpdate({
-      product_id: data.id,
-    });
-    console.log("SUCCESS");
+    console.log("xxxx", data);
+    const product = await ProductHighlight.findOneAndUpdate(
+      {
+        product_id: data.product_id,
+      },
+      {
+        isHotItem: data.isHotItem,
+        name: data.name,
+      },
+      { new: true }
+    );
     return res.status(200).json({
       message: "Update complete",
       data: product,

@@ -1,24 +1,20 @@
-import React, { useEffect } from "react";
-import { useAuthenticatedFetch } from "../hooks";
+import { Badge } from "@shopify/polaris";
+import { useAppQuery } from "../hooks";
 
 export default function ProductHightlight({ id }) {
-  const fetch = useAuthenticatedFetch();
+  const { data } = useAppQuery({
+    url: `/api/products-highlight/get?id=${id}`,
+  });
 
-  const getHighlight = async () => {
-    const response = await fetch(`/api/products-highlight/get?id=${id}`, {
-      method: "GET",
-    });
+  const hotItems = data?.data.map(({ product_id, isHotItem }) =>
+    isHotItem ? (
+      <Badge status="success" key={product_id}>
+        Hot
+      </Badge>
+    ) : (
+      ""
+    )
+  );
 
-    if (response.ok) {
-      console.log("res", response);
-    }
-  };
-
-  useEffect(() => {
-    if (id) {
-      getHighlight();
-    }
-  }, [id]);
-
-  return <div>Hot</div>;
+  return <>{hotItems}</>;
 }
