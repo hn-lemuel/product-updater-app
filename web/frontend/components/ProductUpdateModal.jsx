@@ -20,8 +20,6 @@ export const ProductUpdateModal = ({
     url: `/api/products-highlight/get?id=${product.id}`,
   });
 
-  console.log("==>", data?.data.length);
-
   const handleIsHotEnable = () => {
     setIsHot(!isHot);
   };
@@ -77,7 +75,7 @@ export const ProductUpdateModal = ({
       name: title,
       product_id: product.id,
     };
-    console.log(updatedProjectHighlight);
+
     const response = await fetch(`/api/products-highlight/${action}`, {
       method: method,
       headers: {
@@ -96,7 +94,9 @@ export const ProductUpdateModal = ({
     setTitle(product?.title || "");
     setDescription(product?.description || "");
     if (data?.data.length) {
-      setIsHot(data.data.isHotItem);
+      setIsHot(data?.data[0].isHotItem);
+    } else {
+      setIsHot(false);
     }
   }, [product, data]);
 
