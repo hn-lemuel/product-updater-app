@@ -1,0 +1,39 @@
+<link rel="stylesheet" href="{{ 'ext.css' | asset_url }}">
+{% if product %}
+  <div id="highlightExt">
+    <span class="app-badge" style="background-color:{{ block.settings.color }}; 
+                        border-radius:{{ block.settings.border_radius }}px; 
+                        font-size:{{ block.settings.font_size }}px;">
+      {{ product.id }} - Hot
+    </span>
+  </div>
+{% endif %}
+
+
+{% schema %}
+  {
+    "name": "Add Highlight",
+    "target": "section",
+    "settings": [
+      {
+        "type": "color",
+        "id": "color",
+        "label": "Background Color",
+        "default": "#ff0000",
+        "info": "Set the background color for badge."
+      }, {
+        "type": "number",
+        "id": "border_radius",
+        "label": "Border Radius",
+        "default": 20,
+        "info": "Set the border radius for elements with rounded corners. Unit will be px"
+      }, {
+        "type": "number",
+        "id": "font_size",
+        "label": "Font Size",
+        "default": 20,
+        "info": "Set the font size for elements. Unit will be px"
+      }
+    ]
+  }
+{% endschema %}
