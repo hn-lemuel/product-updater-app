@@ -31,7 +31,6 @@ export const getProductHighlight = async (req, res) => {
 export const updateProductHighlight = async (req, res) => {
   try {
     const data = req.body;
-    console.log("xxxx", data);
     const product = await ProductHighlight.findOneAndUpdate(
       {
         product_id: data.product_id,
@@ -47,7 +46,6 @@ export const updateProductHighlight = async (req, res) => {
       data: product,
     });
   } catch (e) {
-    console.log("ERROR", e.message);
     return res.status(500).json({
       message: e.message,
     });
