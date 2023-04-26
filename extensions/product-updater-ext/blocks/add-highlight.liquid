@@ -1,15 +1,17 @@
 <link rel="stylesheet" href="{{ 'ext.css' | asset_url }}">
+
 {% if product %}
-  <div id="highlightExt">
-    <span class="app-badge" style="background-color:{{ block.settings.color }}; 
-                        border-radius:{{ block.settings.border_radius }}px; 
-                        font-size:{{ block.settings.font_size }}px;">
-      {{ product.id }} - Hot
+  <div>
+    <span class="app-badge" style="
+        background-color:{{ block.settings.color }}; 
+        border-radius:{{ block.settings.border_radius }}px; 
+        font-size:{{ block.settings.font_size }}px;">
+      Hot
     </span>
   </div>
 {% endif %}
 
-
+<script src="{{ 'ext.js' | asset_url }}" defer></script>
 {% schema %}
   {
     "name": "Add Highlight",
