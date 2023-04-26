@@ -1,5 +1,12 @@
 .app-badge {
-    color: white;
-    padding: 0.5rem 1.3rem 0.6rem;
+    padding: 0px 20px;
     text-align: center;
+}
+
+.is-hot--hide {
+    display: none;
+}
+
+.is-hot {
+    display: inline-block;
 }
